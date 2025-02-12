@@ -38,7 +38,6 @@ const validationSchema = Yup.object({
   question: Yup.string().required("Question is required"),
   answer: Yup.string().required("Answer is required"),
   categoryId: Yup.string().required("Category is required"),
-  photos: Yup.mixed().nullable(),
 });
 
 const Question = () => {
