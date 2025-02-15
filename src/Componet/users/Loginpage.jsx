@@ -6,6 +6,13 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { lightGreen } from "@mui/material/colors";
 
+import * as Yup from "yup";
+
+const validationSchema = Yup.object({
+  email: Yup.string().required("email is required"),
+  password: Yup.string().required("password is required"),
+});
+
 const Loginpage = () => {
   let navigate = useNavigate();
   const formik = useFormik({
@@ -13,6 +20,7 @@ const Loginpage = () => {
       email: "",
       password: "",
     },
+    validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         let loginData = await axios.post(
@@ -40,14 +48,14 @@ const Loginpage = () => {
   return (
     <div>
       <Box width="100%">
-        <Container maxWidth="xl" sx={{mt:{xs:'5rem',md:'10rem'}}}>
+        <Container maxWidth="xl" sx={{ mt: { xs: "5rem", md: "10rem" } }}>
           <Box
             component="form"
             onSubmit={formik.handleSubmit}
             sx={{
               maxWidth: 400,
               mx: "auto",
-              p: {xs:1 , md:3},
+              p: { xs: 1, md: 3 },
               boxShadow: 3,
               borderRadius: 2,
               backgroundColor: "#fff",
@@ -66,6 +74,8 @@ const Loginpage = () => {
               margin="normal"
               onChange={formik.handleChange}
               value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
             />
 
             <TextField
@@ -76,6 +86,8 @@ const Loginpage = () => {
               margin="normal"
               onChange={formik.handleChange}
               value={formik.values.password}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
 
             <Button
